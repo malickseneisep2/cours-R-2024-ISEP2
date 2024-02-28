@@ -1,0 +1,63 @@
+#Exercice de maison numéro 1
+# Tracer la courbe de la fonction
+
+install.packages("plotly")
+library(plotly)
+library(magrittr)  
+
+# Expression de la fonction
+f <- function(x, y) {
+  x^2 + cos(x+y) + (y^2 + (1/(1 + x^2)))^0.5
+}
+
+
+# Délimitation des intervalles
+x <- seq(-20, 20, 0.1)  # Séquence de -20 à 20 avec un pas de 0.1
+y <- seq(-20, 20, 0.1)  # Séquence de -20 à 20 avec un pas de 0.1
+z <- outer(x, y, f)
+
+# Création du graphique
+plot_ly(x = x, y = y, z = z, type = "surface") %>%
+  layout(title = "Courbe de la fonction")
+
+
+# Courbe des  fonctions dérivée par rapport à x et à y
+
+install.packages("plotly")
+library(plotly)
+library(magrittr)  # Load the magrittr package
+#Calculer les fonctions dérivées
+df_x<- D(expression(x^2+cos(x + y)+sqrt(y^2+1/(1+x^2))),"x") 
+df_y<- D(expression(x^2+cos(x + y)+sqrt(y^2+1/(1+x^2))),"y")
+print(df_y)
+print(df_x)
+# Create the interactive 3D plot
+# Expression deS fonctions dérivées
+f <- function(x, y) {
+  0.5 * (2 * y * (y^2 + 1/(1 + x^2))^-0.5) - sin(x + y)
+}
+g <- function(x, y) {
+  2 * x - sin(x + y) - 0.5 * (2 * x/(1 + x^2)^2 * (y^2 + 1/(1 +x^2))^-0.5)
+}
+
+# Délimitation des intervalles
+x <- seq(-20, 20, 0.1)  # Séquence de -20 à 10 avec un pas de 0.1
+y <- seq(-20, 20, 0.1)  # Séquence de -20 à 10 avec un pas de 0.1
+z <- outer(x, y, f)
+s<- outer(x, y, g)
+# Création du graphique
+plot_ly(x = x, y = y, z = z, type = "surface") %>%
+  layout(title = "Courbe de la fonction dérivée par rapport à y")
+plot_ly(x = x, y = y, z = s, type = "surface") %>%
+  layout(title = "Courbe de la fonction dérivée par rapport à x")
+
+#Calcul  min 
+# Définition de la fonction
+f <- function(x) {
+  return(x[1]^2 + cos(x[1] + x[2]) + sqrt(x[2]^2 + 1/(1 + x[1]^2)))
+}
+# Calcul du minimum
+resultat <- optim(c(0, 0), f, method = "L-BFGS-B", lower = c(-pi, -pi), upper = c(pi, pi))
+max=optim(c(0, 0), f, method = "L-BFGS-B", lower = c(-pi, -pi), upper = c(pi, pi))
+# Affichage du minimum
+cat("Le minimum est:",resultat$value)

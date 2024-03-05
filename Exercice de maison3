@@ -1,0 +1,113 @@
+#Exercice de maison numéro3
+#1:completer votre base en ajoutant des varibles(15) et des observations(300)
+#2:Ecrire un code import/exprort ; renommer ; faire des stats desc sur 
+#les variables
+#Exercice2
+##Implementer manuellement le test de khi-deux
+
+#Ajout des variables à la base 
+donnees$langue_maternelle <- c("français", "anglais", "espagnol","anglais","espagnol")
+donnees$niveau_education_parents <- c("primaire", "secondaire", "universitaire", "universitaire", "universitaire")
+donnees$temps_transport_ecole_min <- c(30, 45, 20, 20, 20)
+donnees$interet_matieres_scolaires <- c("élevé", "moyen", "faible", "faible", "faible")
+donnees$utilisation_technologies <- c(3, 5, 1, 1, 1) #Sur une echelle de 10
+donnees$nombre_devoirs_mensuels <- c(5, 6, 4, 4, 4)
+donnees$nombre_heures_sommeil <- c(7, 8, 6,7,7)
+donnees$heure_abs <- c(2, 4, 1,7,9)
+donnees$annee <- c(1, 3, 4,3,1)
+donnees$activite_extra <- c("sport", "lutte", "musique","art","lutte")
+
+#Ajouter des observations à la base
+
+# Charger le package dplyr
+library(dplyr)
+
+# Définir les niveaux pour les variables catégorielles
+noms <- c("Niass", "MBB", "KD", "Célina", "Bathie", "Aliou", "Fatou", "Aissatou", "Mamadou", "Cheikh")
+regions <- c("Saint-Louis", "Touba", "Ndayane", "Dakar", "Fatick", "Thies", "Kaolack", "Ziguinchor", "Kolda", "Matam")
+langues <- c("français", "anglais", "espagnol", "wolof", "peul", "serere", "jola", "mandingue", "soninke", "bassari")
+niveaux <- c("primaire", "secondaire", "universitaire")
+interets <- c("élevé", "moyen", "faible")
+activites <- c("sport", "lutte", "musique", "art", "danse", "théâtre", "informatique", "lecture", "peinture", "poterie")
+
+# Créer un dataframe avec 300 observations pour chaque variable
+donnees <- data.frame(
+  nom = sample(noms, size = 300, replace = TRUE),
+  age = sample(15:25, size = 300, replace = TRUE),
+  sexe = factor(sample(c("F", "M"), size = 300, replace = TRUE), levels = c("F", "M")),
+  Region = sample(regions, size = 300, replace = TRUE),
+  note = runif(300, min = 0, max = 20),
+  langue_maternelle = sample(langues, size = 300, replace = TRUE),
+  niveau_education_parents = sample(niveaux, size = 300, replace = TRUE),
+  temps_transport_ecole_min = sample(10:60, size = 300, replace = TRUE),
+  interet_matieres_scolaires = sample(interets, size = 300, replace = TRUE),
+  utilisation_technologies = sample(1:10, size = 300, replace = TRUE),
+  nombre_devoirs_mensuels = sample(1:10, size = 300, replace = TRUE),
+  nombre_heures_sommeil = sample(5:10, size = 300, replace = TRUE),
+  heure_abs = sample(0:24, size = 300, replace = TRUE),
+  annee = sample(1:5, size = 300, replace = TRUE),
+  activite_extra = sample(activites, size = 300, replace = TRUE)
+)
+
+#2:Ecrire un code import/exprort ; renommer ; faire des stats desc sur 
+#les variables
+
+install.packages("readxl")
+# Charger le package readxl
+library(readxl)
+# Importer un fichier Excel
+df <- read_excel("C:/Users/DELL/Desktop/Cours R/Base_Exo.xlsx")
+View(df)
+
+install.packages("writexl")
+# Charger le package writexl
+library(writexl)
+# Exporter le dataframe vers un fichier Excel
+write_xlsx(donnees, "C:/Users/DELL/Desktop/Cours R")
+View(df)
+
+#Renommer des variables 
+install.packages("dplyr")
+# Charger le package dplyr
+library(dplyr)
+donnees <- rename(donnees, Nom = nom,  nbr_heure_abs=heure_abs)
+
+#Faire des statisques
+summary(age)
+
+#Exercice2
+##Implementer manuellement le test de khi-deux
+
+# Créer un tableau de contingence entre les variables interet_matieres_scolaires utilisation_technologies
+tableau <- table(donnees$interet_matieres_scolaires, donnees$utilisation_technologies)
+resultat <- chisq.test(tableau)
+
+
+
+# Supposons que 'donnees' est votre dataframe
+donnees <- data.frame(
+  interet_matieres_scolaires = sample(c("élevé", "moyen", "faible"), 300, replace = TRUE),
+  utilisation_technologies = sample(1:10, 300, replace = TRUE)
+)
+
+# Créer un tableau de contingence
+tableau <- table(donnees$interet_matieres_scolaires, donnees$utilisation_technologies)
+
+# Calcul des fréquences attendues
+frequences_attendues <- chisq.test(tableau)$expected
+
+
+# Calcul de la statistique du Chi-deux
+statistique_chi_deux <- sum((tableau - frequences_attendues)^2 / frequences_attendues)
+
+# Calcul des degrés de liberté
+degres_de_liberte <- (nrow(tableau) - 1) * (ncol(tableau) - 1)
+
+# Calcul de la p-valeur
+p_valeur <- pchisq(statistique_chi_deux, df = degres_de_liberte, lower.tail = FALSE)
+
+# Afficher le résultat
+cat("Statistique du Chi-deux :", statistique_chi_deux, "\n")
+cat("Degrés de liberté :", degres_de_liberte, "\n")
+cat("P-valeur :", p_valeur,"Donc à un niveau de signification de 0,07, il n'y a pas suffisamment de preuves pour rejeter l'hypothèse nulle selon laquelle il n'existe pas de relation significative entre les variables interet_matieres_scolaires et utilisation_technologies." ,"\n")
+

@@ -1,0 +1,15 @@
+---
+title: "Test"
+author: "Malick SENE"
+date: "2024-03-07"
+output: pdf_document
+
+---
+
+**Statistique descriptive du data frame "donnees"**
+
+```{r echo=FALSE}
+load("donnees.RData")
+summary(donnees)
+```
+

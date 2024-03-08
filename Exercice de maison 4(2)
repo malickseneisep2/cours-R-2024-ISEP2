@@ -1,0 +1,37 @@
+---
+title: "Exposé R 2024:  
+  Traitement et analyse de données géospatiales avec R"
+author: "Réalisé par Malick SENE et Awa DIAW, élèves en ISEP2"
+date: "2024-03-08"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# \textcolor {blue}{Esquisse de Table des matières}
+# Introduction 
+
+# I-	Chargement, manipulation et visualisation des données géospatiales 
+## 1. Utilisation des packages R pour charger des données géospatiales (ex. : sf, stars)
+## 2. Transformation des coordonnées géographiques
+## 3.	Filtrage et sélection des données
+## 4.	Création de cartes statiques avec ggplot2
+## 5.	Personnalisation des cartes 
+
+# II.	Analyse et modélisation spatiales 
+## 1.	Analyse de proximité (buffers, intersections, etc.)
+## 2. Utilisation des indices spatiaux (ex. : R-tree, quadtree)
+## 3. Régression spatiale
+## 4. Kriging pour l’interpolation
+## 5. Modèles de régression géospatiale
+
+# III.	Applications pratiques 
+## 1.	Exemples d’analyses géospatiales dans des domaines spécifiques (écologie, urbanisme, épidémiologie, etc.)
+## 2.	Cas d’utilisation de données géospatiales réelles
+
+#	Conclusion
+
+

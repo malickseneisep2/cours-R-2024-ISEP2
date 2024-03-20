@@ -1,0 +1,15 @@
+##Excercice de maison 7
+#Merger les bases conversion et cereales suivants les clefs produits, untité_cons et 
+#Taille_cons
+#Création des clefs produit,unite_cons et taille_cons dans la base conversion  
+conversion$produit <- factor(conversion$celeales_id, 
+                           levels = conversion$celeales_id,
+                           labels = conversion$celeales_id )
+conversion$unite_cons <- factor(conversion$uniteNom,
+                              levels = conversion$uniteNom,
+                              labels =conversion$uniteNom)
+conversion$taille_cons <- factor(conversion$tailleNom,
+                               levels = conversion$tailleNom,
+                               labels = conversion$tailleNom)
+#Fusionner les bases
+fusion <- merge(cereales, conversion, by = c("produit", "unite_cons", "taille_cons"),allx=TRUE)

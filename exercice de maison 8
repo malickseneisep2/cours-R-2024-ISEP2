@@ -1,0 +1,34 @@
+#Exercice de maison 8:
+
+#' calculer la quantite achete en kg; 
+#' calculer le prix unitaire ;
+#' Calculer les depenses de consommations ; 
+#' Valeurs aberrantes :: corrections ; 
+cereale<-fusion
+# Calculer la quantité achetée en kg: on mutiplie Qtty_achat par le poids correspondant puis on divise par 1000 pour avoir le resultat en kg
+cereales$Qtty_achat_kg <- cereales$Qtty_achat * as.numeric(cereales$poids) / 1000
+
+# Calculer le prix unitaire
+cereales$prix_unit <- cereales$Value_achat / cereales$Qtty_achat
+
+# Calculer les dépenses de consommation : Prix unitaire * qtty_cons
+cereales$depenses_cons <- cereales$prix_unit * cereales$Qtty_cons
+
+# Valeurs aberrantes :: corrections
+
+# Affichage du boxplot pour visualiser les valeurs abbetantes
+boxplot(cereales$Qtty_cons, 
+        main="Boxplot de la variable Qtty_cons",
+        ylab="Qtty_cons")
+
+# Identifier les valeurs aberrantes
+outliers <- boxplot.stats(cereales$Qtty_cons)$out
+print(outliers)
+
+# Calculer la médiane de la variable Qtty_cons
+median_value <- median(cereales$Qtty_cons, na.rm = TRUE)
+
+# Remplacer les valeurs aberrantes par la médiane
+cereales$Qtty_cons_corr[cereales$Qtty_cons %in% outliers] <- median_value
+
+

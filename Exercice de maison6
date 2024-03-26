@@ -15,17 +15,15 @@ colnames(cereales)[4:14] <- c("AutresCereales","Qtty_cons",
 View(cereales)
 #Creer une variable prix=qtty_achat*value_achat
 cereales$prix <- cereales$Qtty_achat * cereales$Value_achat
-#Labeliser la variables Taille_cons 0=aucune ,1=faible ,2=moyen , 3=élevé 7=très élevé:recoder des variables
-table(cereales$Taille_cons)
 # Définition des niveaux de la variable Taille_cons
 niveaux <- c("aucune", "faible", "moyen", "élevé", "très élevé")
 # Conversion de la variable Taille_cons en facteur avec les niveaux spécifiés
-cereales$Taille_cons <- factor(cereales$Taille_cons, levels = c(0, 1, 2, 3, 7), labels = niveaux)
+cereales$Taille_cons_fact <- factor(cereales$Taille_cons, levels = c(0, 1, 2, 3, 7), labels = niveaux)
 
 #5 changer de type te la variables Qtty_cons initialement en num en type caractère
 
 # Conversion de la variable Qtty_cons en type caractère
-cereales$Qtty_cons <- as.character(cereales$Qtty_cons)
+cereales$Qtty_cons_char <- as.character(cereales$Qtty_cons)
 
 #Découpage en classe de la classe Qtty_cons
 

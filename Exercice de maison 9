@@ -7,11 +7,11 @@
 
 #'1 calculer la quantite achete en kg; 
 #Faire un merge de la base cereales et de la base conversion suivant "cereales__id","Unite_achat","Taille_achat"
-setnames(conversion, "celeales_id", "cereales__id")
+setnames(conversion, "produitNom", "produitNom ")
 setnames(conversion, "uniteID", "Unite_achat")
 setnames(conversion, "tailleID", "Taille_achat")
 cereales_achat <- merge(cereales,conversion, 
-                   by = c("cereales__id","Unite_achat","Taille_achat"),
+                   by = c("produitNom","Unite_achat","Taille_achat"),
                    all.x = T)
 calculer la quantite achete en kg; 
 cereales_achat$Qtty_achat_t <- cereales_achat$Qtty_achat * as.numeric(cereales_achat$poids) / 1000

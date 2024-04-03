@@ -1,0 +1,71 @@
+## Traitement des pu aberrants ; 
+
+idc <- unique(cereales4 $cereales__id)
+
+library(dplyr)
+cereales4  <- cereales4  %>%
+  group_by(cereales__id) %>%
+  mutate(pu = ifelse(!is.na(pu) & pu > quantile(pu, 0.75, na.rm = TRUE), quantile(pu, 0.75, na.rm = TRUE), pu))
+
+# Calculer la moyenne et la médiane de 'pu' pour chaque combinaison (p,u,t)
+library(dplyr)
+
+resultats <- prixunitaire %>%
+  group_by(pu, Unite_achat, Taille_achat) %>%
+  summarise(
+    mediane_pu = median(pu, na.rm = TRUE)
+  )
+
+
+# Calculer le prix 'p' pour chaque combinaison (p,u,t)
+prixunitaire2 <- prixunitaire %>%
+  group_by(pu, Unite_achat, Taille_achat) %>%
+  summarise(
+    p = mean(pu, na.rm = TRUE)
+  )
+
+
+
+#' Ramener cette sous-base dans la base cereales4 pour calculer 
+#' les depenses de consommations ; 
+
+library(dplyr)
+
+# Joindre la sous-base 'prixunitaire' à la base 'cereales4'
+cereales4  <- cereales4  %>%
+  left_join(prixunitaire2, by = c("pu", "Unite_achat", "Taille_achat"))
+
+# Calculer les dépenses de consommation
+cereales4  <- cereales4  %>%
+  mutate(depenses = p * Qtty_achat)  
+
+#' 1:: evaluer le taux de matching : n(Pc,Uc,Tc) aynt un prix P sur le
+#' le nombre total de combinaison n(Pc,Uc,Tc); 
+
+
+# Calculer le nombre total de combinaisons (Pc,Uc,Tc)
+total_combinaisons <- nrow(cereales4 )
+
+# Calculer le nombre de combinaisons (Pc,Uc,Tc) ayant un prix P
+combinaisons_avec_prix <- cereales4  %>%
+  filter(!is.na(p)) %>%
+  nrow()
+
+# Calculer le taux de correspondance
+taux_correspondance <- combinaisons_avec_prix / total_combinaisons
+
+# Afficher le taux de correspondance
+print(taux_correspondance)
+
+#' 2:: Reflechir a comment valoriser ces quantites n'ayant de prix  
+
+# Imputer les valeurs manquantes par la médiane
+cereales4 $pu[is.na(cereales4 $pu)] <- median(cereales4 $pu, na.rm = TRUE)
+
+#' Valeurs aberrantes :: corrections ; 
+Q1 <- quantile(cereales4 $pu, 0.25, na.rm = TRUE)
+Q3 <- quantile(cereales4 $pu, 0.75, na.rm = TRUE)
+IQR <- Q3 - Q1
+
+# Remplacer les valeurs aberrantes par la médiane
+cereales4 $pu[cereales4 $pu < (Q1 - 1.5 * IQR) | cereales4 $pu > (Q3 + 1.5 * IQR)] <- median(cereales4 $pu, na.rm = TRUE)

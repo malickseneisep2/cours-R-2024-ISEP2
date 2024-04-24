@@ -1,0 +1,10 @@
+# Imputer les valeurs manquantes par la médiane
+cereales4$pu[is.na(cereales4$pu)] <- median(cereales4$pu, na.rm = TRUE)
+
+#' Valeurs aberrantes :: corrections ; 
+Q1 <- quantile(cereales4$pu, 0.25, na.rm = TRUE)
+Q3 <- quantile(cereales4$pu, 0.75, na.rm = TRUE)
+IQR <- Q3 - Q1
+
+# Remplacer les valeurs aberrantes par la médiane
+cereales4$pu[cereales4$pu < (Q1 - 1.5 * IQR) | cereales4$pu > (Q3 + 1.5 * IQR)] <- median(cereales4$pu, na.rm = TRUE)
